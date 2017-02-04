@@ -1,0 +1,4 @@
+[submodule "roles/sa-auto-ssh"]
+        path = roles/sa-auto-ssh
+        url = https://github.com/softasap/sa-auto-ssh.git
+

@@ -1,0 +1,7 @@
+---
+
+  - name: AUTOSSH | Install package
+    apt: pkg="autossh"
+    become: yes
+    tags:
+      - autossh

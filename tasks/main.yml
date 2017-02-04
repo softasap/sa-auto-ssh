@@ -1,0 +1,6 @@
+---
+# tasks file for sa-auto-ssh
+
+  - include: __detect_init_system.yml
+
+  - include: tasks_auto_ssh.yml
