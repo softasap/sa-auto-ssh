@@ -3,6 +3,8 @@
 
 role_dir: "{{role_path}}"
 
+option_create_user: false
+
 autossh_debug: False
 autossh_gatetime: 30
 autossh_first_poll: 30
@@ -12,6 +14,7 @@ autossh_port: 0
 autossh_poll: 60
 
 autossh_user: "{{ansible_user_id}}" # you may consider using custom user for tunelling
+autossh_user_shell: "/bin/false"
 
 
 autossh_env: {

@@ -6,6 +6,13 @@
     tags:
       - autossh
 
+  - name: AUTOSSH | Create dedicated user for user
+    user: name="{{autossh_user}}" generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=".ssh/id_rsa" system="yes" shell="{{autossh_user_shell}}"
+    when: option_create_user
+    become: yes
+    tags:
+      - autossh
+
   - name: AUTOSSH |  configure startup
     template: src="{{role_dir}}/templates/start/upstart.conf.j2" dest="/etc/init/{{item.startup.name}}.conf"
     when: item.startup is defined and item.startup.template is not defined and upstart_system == "upstart"

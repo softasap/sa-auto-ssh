@@ -12,9 +12,25 @@ Simple:
 
 ```YAML
 
+vars:
+
+  - autossh_forwarded_rules:
+    - {
+      forward_line: "-NL 9090:192.168.0.3:80",
+      forward_host: "remoteuser@remotehost"
+      }
+    - {
+      forward_line: "-NL 9091:192.168.0.151:80",
+      forward_host: "remoteuser@remotehost"
+      }
+
+...
+
+roles:
 
      - {
-         role: "sa-auto-ssh"
+         role: "sa-auto-ssh",
+         autossh_forwarded_rules: "{{autossh_forwarded_rules}}"
        }
 
 ```
@@ -24,6 +40,29 @@ Advanced:
 
 ```YAML
 
+option_create_user: true
+
+autossh_debug: False
+autossh_gatetime: 30
+autossh_first_poll: 30
+autossh_loglevel: 0
+autossh_pidfile: "/var/run/autossh/autossh.pid"
+autossh_port: 0
+autossh_poll: 60
+
+autossh_user: "{{ansible_user_id}}" # you may consider using custom user for tunelling
+autossh_user_shell: "/bin/false"
+
+autossh_forwarded_rules:
+  - {
+    forward_line: "-NL 9090:192.168.0.3:80",
+    forward_host: "remoteuser@remotehost"
+    }
+  - {
+    forward_line: "-NL 9091:192.168.0.151:80",
+    forward_host: "remoteuser@remotehost"
+    }
+
 
 ```
 
@@ -32,7 +71,22 @@ Advanced:
 
 
      - {
-         role: "sa-auto-ssh"
+         role: "sa-auto-ssh",
+
+         option_create_user: "{{option_create_user}}",
+
+         autossh_debug: "{{autossh_debug}}",
+         autossh_gatetime: "{{autossh_gatetime}}",
+         autossh_first_poll: "{{autossh_first_poll}}",
+         autossh_loglevel: "{{autossh_loglevel}}",
+         autossh_pidfile: "{{autossh_pidfile}}",
+         autossh_port: "{{autossh_port}}",
+         autossh_poll: "{{autossh_poll}}",
+
+         autossh_user: "{{autossh_user}}",
+         autossh_user_shell: "{{autossh_user}}",
+
+         autossh_forwarded_rules: "{{autossh_forwarded_rules}}"
        }
 
 ```
