@@ -22,6 +22,12 @@
     tags:
       - autossh
 
+  - name: AUTOSSH | Create /var/run/autossh
+    file: path="/var/run/autossh" state="directory" owner="{{autossh_user}}" group="root"
+    become: yes
+    tags:
+      - autossh
+
   - name: AUTOSSH |  Start and enable service
     service: name="{{item.startup.name}}" state="started" enabled="yes"
     with_items: "{{ autossh_startup }}"
