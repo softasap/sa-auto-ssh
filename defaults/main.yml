@@ -1,2 +1,50 @@
 ---
 # defaults file for sa-auto-ssh
+
+
+autossh_debug: False
+autossh_gatetime: 30
+autossh_first_poll: 30
+autossh_loglevel: 0
+autossh_pidfile: "/var/run/autossh.pid"
+autossh_port: 0
+autossh_poll: 60
+
+autossh_user: {{ansible_user_id}} # you may consider using custom user for tunelling
+
+
+autossh_env: {
+  AUTOSSH_PORT: "{{autossh_port}}",
+  AUTOSSH_DEBUG: "{{ autossh_debug}}",
+  AUTOSSH_FIRST_POLL: "{{ autossh_first_poll}}",
+  AUTOSSH_GATETIME:  "{{ autossh_gatetime}}",
+  AUTOSSH_LOGLEVEL:  "{{ autossh_loglevel}}",
+  AUTOSSH_PIDFILE:   "{{ autossh_pidfile}}",
+  AUTOSSH_POLL:      "{{ autossh_poll}}"
+  }
+
+autossh_forwarded_rules: []
+  # - {
+  #   forward_line: "-NL 9090:192.168.0.3:80",
+  #   forward_host: "remoteuser@remotehost"
+  #   }
+  # - {
+  #   forward_line: "-NL 9091:192.168.0.151:80",
+  #   forward_host: "remoteuser@remotehost"
+  #   }
+
+autossh_forwarded_rules_line: "{% for item in autossh_forwarded_rules %} {{item.forward_line}} {{item.forward_host}} {% endfor %}"
+
+autossh_startup_line: "/usr/bin/autossh"
+
+autossh_startup:
+  - {
+      startup: {
+          name: "autossh"
+          description: "Auto SSH Tunnel",
+          env: "{{autossh_env | default({})}}",
+          user: "{{autossh_user}}",
+          execstart: "{{autossh_startup_line}} {{autossh_forwarded_rules_line}}",
+          pidfile: {{ autossh_pidfile | default('/var/run/autossh.pid') }}
+        }
+    }
