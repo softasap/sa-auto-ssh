@@ -49,6 +49,6 @@ autossh_startup:
           env: "{{autossh_env | default({})}}",
           user: "{{autossh_user}}",
           execstart: "{{autossh_startup_line}} {{autossh_forwarded_rules_line}}",
-          pidfile: "{{ autossh_pidfile) }}"
+          pidfile: "{{ autossh_pidfile }}"
         }
     }
