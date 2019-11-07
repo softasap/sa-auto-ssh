@@ -7,14 +7,20 @@
       - autossh
 
   - name: AUTOSSH | Create dedicated user for user
-    user: name="{{autossh_user}}" generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=".ssh/id_rsa" system="yes" shell="{{autossh_user_shell}}"
+    user:
+      name: "{{  autossh_user }}"
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: ".ssh/id_rsa"
+      system: "yes"
+      shell: "{{ autossh_user_shell }}"
     when: option_create_user
     become: yes
     tags:
       - autossh
 
   - name: AUTOSSH |  configure startup
-    template: src="{{role_dir}}/templates/start/upstart.conf.j2" dest="/etc/init/{{item.startup.name}}.conf"
+    template: src="{{ role_dir }}/templates/start/upstart.conf.j2" dest="/etc/init/{{ item.startup.name }}.conf"
     when: item.startup is defined and item.startup.template is not defined and upstart_system == "upstart"
     with_items: "{{ autossh_startup }}"
     become: yes
@@ -22,7 +28,7 @@
       - autossh
 
   - name: AUTOSSH |  configure startup
-    template: src="{{role_dir}}/templates/start/systemd.conf.j2" dest="/etc/systemd/system/{{item.startup.name}}.service" mode=0755
+    template: src="{{ role_dir }}/templates/start/systemd.conf.j2" dest="/etc/systemd/system/{{ item.startup.name }}.service" mode=0755
     when: item.startup is defined and item.startup.template is not defined and upstart_system == "systemd"
     with_items: "{{ autossh_startup }}"
     become: yes
@@ -30,13 +36,13 @@
       - autossh
 
   - name: AUTOSSH | Create /var/run/autossh
-    file: path="/var/run/autossh" state="directory" owner="{{autossh_user}}" group="root"
+    file: path="/var/run/autossh" state="directory" owner="{{ autossh_user }}" group="root"
     become: yes
     tags:
       - autossh
 
   - name: AUTOSSH |  Start and enable service
-    service: name="{{item.startup.name}}" state="started" enabled="yes"
+    service: name="{{ item.startup.name }}" state="started" enabled="yes"
     with_items: "{{ autossh_startup }}"
     when: docker_test is not defined
     become: yes

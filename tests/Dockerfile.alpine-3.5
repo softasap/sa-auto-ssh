@@ -1,5 +1,7 @@
 FROM alpine:3.5
 
+ENV container docker
+
 RUN echo "===> (temporary) Installing sudo ..."  && \
     apk --update add sudo                        && \
     \
@@ -12,7 +14,7 @@ RUN echo "===> (temporary) Installing sudo ..."  && \
     \
     \
     echo "===> Installing Ansible..."  && \
-    pip install ansible                && \
+    pip install ansible ansible-lint   && \
     \
     \
     echo "===> Removing package list..."  && \
