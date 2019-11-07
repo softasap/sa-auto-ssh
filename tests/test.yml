@@ -18,7 +18,7 @@
 
     - apt:
         update_cache: true
-      when: multiverse_installed | changed
+      when: ansible_distribution == 'Ubuntu' and multiverse_installed is changed
       become: yes
 
 
