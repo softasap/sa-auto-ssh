@@ -16,7 +16,6 @@ autossh_poll: 60
 autossh_user: "{{ansible_user_id}}" # you may consider using custom user for tunelling
 autossh_user_shell: "/bin/false"
 
-
 autossh_env: {
   AUTOSSH_PORT: "{{autossh_port}}",
   AUTOSSH_DEBUG: "{{ autossh_debug}}",
@@ -46,9 +45,9 @@ autossh_startup:
       startup: {
           name: "autossh",
           description: "Auto SSH Tunnel",
-          env: "{{autossh_env | default({})}}",
-          user: "{{autossh_user}}",
-          execstart: "{{autossh_startup_line}} {{autossh_forwarded_rules_line}}",
+          env: "{{ autossh_env | default({}) }}",
+          user: "{{ autossh_user }}",
+          execstart: "{{ autossh_startup_line }} {{ autossh_forwarded_rules_line }}",
           pidfile: "{{ autossh_pidfile }}"
         }
     }

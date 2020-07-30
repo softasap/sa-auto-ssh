@@ -4,7 +4,6 @@
   vars:
     - root_dir: ..
 
-
   pre_tasks:
     - debug: msg="Pre tasks section"
 
@@ -12,7 +11,6 @@
      - {
          role: "sa-auto-ssh"
        }
-
 
   tasks:
     - debug: msg="Tasks section"
